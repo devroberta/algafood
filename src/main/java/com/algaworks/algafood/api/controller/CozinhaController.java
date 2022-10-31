@@ -2,14 +2,18 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -63,6 +67,36 @@ public class CozinhaController {
 	public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinhaRequest) {
 		Cozinha cozinha = cozinhaRepository.adicionar(cozinhaRequest);
 		return ResponseEntity.ok(cozinha);
+	}
+	
+	@PutMapping("/{cozinhaId}")
+	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinhaRequest) {
+		Cozinha cozinhaResponse = cozinhaRepository.porId(cozinhaId);
+		
+		if (cozinhaResponse != null) {
+			BeanUtils.copyProperties(cozinhaRequest, cozinhaResponse, "id");
+			cozinhaRepository.adicionar(cozinhaResponse);
+			return ResponseEntity.ok(cozinhaResponse);
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("/{cozinhaId}")
+	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
+		
+		try {
+			Cozinha cozinha = cozinhaRepository.porId(cozinhaId);
+			
+			if (cozinha != null) {
+				cozinhaRepository.remover(cozinha);
+				return ResponseEntity.noContent().build();
+			}
+			
+			return ResponseEntity.notFound().build();
+		} catch (DataIntegrityViolationException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 	}
 
 }
