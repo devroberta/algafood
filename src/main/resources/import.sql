@@ -4,6 +4,7 @@ insert into tb_cozinha (id, nome_cozinha) values (2, 'Indiana');
 insert into tb_restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Thai Gourmet', 10, 1);
 insert into tb_restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Thai Delivery', 9.50, 1);
 insert into tb_restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Tuk Tuk Comida Indiana', 15, 2);
+insert into tb_restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('TaxaFreteGratis', 0, 2);
 
 insert into tb_estado (id, nome) values (1, 'Minas Gerais');
 insert into tb_estado (id, nome) values (2, 'São Paulo');
