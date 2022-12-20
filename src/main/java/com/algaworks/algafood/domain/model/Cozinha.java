@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,7 +21,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_cozinha")
 public class Cozinha {
 	
 	@EqualsAndHashCode.Include
@@ -31,7 +29,7 @@ public class Cozinha {
 	private Long id;
 	
 	@JsonProperty(value = "titulo")
-	@Column(name = "nome_cozinha", nullable = false)
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	
 	@JsonIgnore
