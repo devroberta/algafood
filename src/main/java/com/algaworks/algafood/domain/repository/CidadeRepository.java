@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.algaworks.algafood.domain.model.Cidade;
 
 @Repository
-public interface CidadeRepository extends JpaRepository<Cidade, Long>{
+public interface CidadeRepository extends JpaRepository<Cidade, Long> {
 
 }
