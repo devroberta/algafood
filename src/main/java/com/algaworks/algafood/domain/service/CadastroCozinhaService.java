@@ -10,6 +10,8 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
+import java.util.List;
+
 @Service
 public class CadastroCozinhaService {
 
@@ -38,5 +40,9 @@ public class CadastroCozinhaService {
 	public Cozinha buscarOuFalhar(Long cozinhaId) {
 		return cozinhaRepository.findById(cozinhaId)
 				.orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
+	}
+
+	public List<Cozinha> buscarTodas() {
+		return cozinhaRepository.findAll();
 	}
 }

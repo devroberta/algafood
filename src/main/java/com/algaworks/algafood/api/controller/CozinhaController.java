@@ -50,9 +50,8 @@ public class CozinhaController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Cozinha> adicionar(@RequestBody @Valid Cozinha cozinhaRequest) {
-		Cozinha cozinha = casdastroCozinha.salvar(cozinhaRequest);
-		return ResponseEntity.ok(cozinha);
+	public Cozinha adicionar(@RequestBody @Valid Cozinha cozinhaRequest) {
+		return casdastroCozinha.salvar(cozinhaRequest);
 	}
 	
 	@PutMapping("/{cozinhaId}")
