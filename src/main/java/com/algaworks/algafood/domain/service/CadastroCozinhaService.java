@@ -9,6 +9,7 @@ import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,11 +20,13 @@ public class CadastroCozinhaService {
 	private static final String MSG_COZINHA_NAO_ENCONTRADA = "Não existe um cadastro de cozinha com código %d";
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
-	
+
+	//@Transactional
 	public Cozinha salvar(Cozinha cozinha) {
 		return cozinhaRepository.save(cozinha);
 	}
-	
+
+	@Transactional
 	public void excluir(Long cozinhaId) {
 		try {
 			cozinhaRepository.deleteById(cozinhaId);
@@ -36,7 +39,8 @@ public class CadastroCozinhaService {
 					String.format(MSG_COZINHA_EM_USO, cozinhaId));
 		}
 	}
-	
+
+	@Transactional
 	public Cozinha buscarOuFalhar(Long cozinhaId) {
 		return cozinhaRepository.findById(cozinhaId)
 				.orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
