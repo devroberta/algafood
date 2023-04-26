@@ -27,7 +27,7 @@ public class Cozinha {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
+//	@NotBlank
 	@JsonProperty(value = "titulo")
 	@Column(name = "nome", nullable = false)
 	private String nome;
