@@ -21,7 +21,7 @@ public class CadastroCozinhaService {
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 
-	//@Transactional
+	@Transactional
 	public Cozinha salvar(Cozinha cozinha) {
 		return cozinhaRepository.save(cozinha);
 	}
@@ -30,6 +30,7 @@ public class CadastroCozinhaService {
 	public void excluir(Long cozinhaId) {
 		try {
 			cozinhaRepository.deleteById(cozinhaId);
+			cozinhaRepository.flush();
 			
 		} catch (EmptyResultDataAccessException e) {
 			throw new CozinhaNaoEncontradaException(cozinhaId);
