@@ -7,5 +7,4 @@ import com.algaworks.algafood.domain.model.Permissao;
 
 @Repository
 public interface PermissaoRepository extends JpaRepository<Permissao, Long> {
-
 }
