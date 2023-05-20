@@ -24,5 +24,4 @@ public class PedidoResumoModelAssembler {
                 .map(pedido -> toModel(pedido))
                 .collect(Collectors.toList());
     }
-
 }

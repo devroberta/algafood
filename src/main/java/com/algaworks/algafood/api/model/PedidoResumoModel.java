@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+//@JsonFilter("pedidoFilter")
 @Setter
 @Getter
 public class PedidoResumoModel {
@@ -18,5 +19,4 @@ public class PedidoResumoModel {
     private OffsetDateTime dataCriacao;
     private RestauranteResumoModel restaurante;
     private UsuarioModel cliente;
-
 }

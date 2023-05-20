@@ -3,14 +3,16 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.CozinhaInputDisassembler;
 import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.model.CozinhaModel;
-import com.algaworks.algafood.api.model.CozinhasXmlWrapper;
 import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,15 +36,18 @@ public class CozinhaController {
 
 	
 	@GetMapping
-	public List<CozinhaModel> listar() {
-		 List<Cozinha> todasCozinhas = cozinhaRepository.findAll();
-		 return cozinhaModelAssembler.toCollectionModel(todasCozinhas);
+	public Page<CozinhaModel> listar(@PageableDefault(size=10) Pageable pageable) {
+		 Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
+		 List<CozinhaModel> cozinhaModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+		 Page<CozinhaModel> cozinhaModelPage = new PageImpl<>(cozinhaModel, pageable, cozinhasPage.getTotalElements());
+
+		 return cozinhaModelPage;
 	}
 	
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public CozinhasXmlWrapper listarXml() {
-		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
-	}
+//	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+//	public CozinhasXmlWrapper listarXml() {
+//		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
+//	}
 	
 	@GetMapping("/{cozinhaId}")
 	public CozinhaModel buscar(@PathVariable("cozinhaId") Long id) {

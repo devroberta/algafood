@@ -21,7 +21,9 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String codigo;
+
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
@@ -31,21 +33,22 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     private StatusPedido status = StatusPedido.CRIADO;
-    
+
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
+
     private OffsetDateTime dataConfirmacao;
     private OffsetDateTime dataCancelamento;
     private OffsetDateTime dataEntrega;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private FormaPagamento formaPagamento;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private Restaurante restaurante;
-    
+
     @ManyToOne
     @JoinColumn(name = "usuario_cliente_id", nullable = false)
     private Usuario cliente;
@@ -61,14 +64,6 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.valorTotal = this.subtotal.add(this.taxaFrete);
-    }
-
-    public void definirFrete() {
-        setTaxaFrete(getRestaurante().getTaxaFrete());
-    }
-
-    public void atribuirPedidoAosItens() {
-        getItens().forEach(item -> item.setPedido(this));
     }
 
     public void confirmar() {
@@ -87,10 +82,11 @@ public class Pedido {
     }
 
     private void setStatus(StatusPedido novoStatus) {
-        if(getStatus().naoPodeAlterarPara(novoStatus)) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
             throw new NegocioException(
-                    String.format("Status do pedido %s nao pode ser alterado de %s para %s",
-                            getCodigo(), getStatus().getDescricao(), novoStatus.getDescricao()));
+                    String.format("Status do pedido %s não pode ser alterado de %s para %s",
+                            getCodigo(), getStatus().getDescricao(),
+                            novoStatus.getDescricao()));
         }
 
         this.status = novoStatus;
@@ -100,4 +96,5 @@ public class Pedido {
     private void gerarCodigo() {
         setCodigo(UUID.randomUUID().toString());
     }
+
 }
